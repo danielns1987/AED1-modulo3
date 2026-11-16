@@ -1,8 +1,29 @@
 #include "musica.h"
 #include <stddef.h>
-/* M01: substituir stubs por alocacao, copia segura de strings e free. */
+#include <stdio.h>
+#include <stdlib.h>
+
 t_musica *musica_criar(int id, const char *titulo, const char *artista, int duracao) {
-    (void)id; (void)titulo; (void)artista; (void)duracao;
-    return NULL; /* TODO M01 */
+    
+    t_musica* musica = malloc(sizeof(t_musica));
+    if (musica == NULL) {
+        return NULL;
+    }
+
+    musica->id = id;
+    snprintf(musica->titulo, sizeof(musica->titulo), "%s", titulo);
+    snprintf(musica->artista, sizeof(musica->artista), "%s", artista);
+    musica->duracao = duracao;
+
+    return musica;
 }
-void musica_destruir(void *carga) { (void)carga; /* TODO M01 */ }
+
+void musica_destruir(void *carga) { 
+
+    if (carga == NULL) {
+        return;
+    }
+    
+    free(carga);
+
+}
