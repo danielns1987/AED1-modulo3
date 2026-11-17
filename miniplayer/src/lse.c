@@ -8,12 +8,12 @@ typedef struct elem {
     struct elem *prox;
 } t_elem;
 
-struct lse {
+
+typedef struct lse {
     t_elem *inicio;
     int tamanho;
-    /* M08 (otimizacao opcional): t_elem *fim; */
-};
-/* Stubs intencionalmente incompletos; testes devem falhar ate implementacao. */
+} t_lse;
+
 
 t_elem* lse_elem_criar(void* carga) {
     t_elem *novo = malloc(sizeof(t_elem));
