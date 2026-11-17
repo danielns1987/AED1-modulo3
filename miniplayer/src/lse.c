@@ -15,10 +15,15 @@ typedef struct lse {
 } t_lse;
 
 
-t_elem* lse_elem_criar(void* carga) {
-    t_elem *novo = malloc(sizeof(t_elem));
-    novo->carga = carga;
-    novo->prox = NULL;
+t_elem *lse_elem_criar(void* carga) {
+    t_elem *e = malloc(sizeof(t_elem));
+    if (e == NULL) {
+        return NULL;
+    }
+    
+    e->carga = carga;
+    e->prox = NULL;
+    return e;
 }
 
 
@@ -31,7 +36,7 @@ t_lse *lse_criar(void) {
     l->tamanho = 0;
     
     return l;
-} /* TODO M02/M03 */
+}
 
 
 int lse_tamanho(const t_lse *l) {
@@ -40,7 +45,7 @@ int lse_tamanho(const t_lse *l) {
     }
 
     return l->tamanho;
-} /* TODO M03 */
+}
 
 
 t_elem *lse_primeiro(const t_lse *l) { 
@@ -51,9 +56,9 @@ t_elem *lse_primeiro(const t_lse *l) {
     if (l->inicio == NULL) {
         return NULL;
     }else{
-
+        return l->inicio;
     }
-} /* TODO M03 */
+}
 
 
 int lse_inserir_inicio(t_lse *l, void *c) {
@@ -95,6 +100,5 @@ void lse_destruir(t_lse *l, t_lse_destruir_carga destruir_carga) {
         free(cam);
         cam = prox;
     }
-
- /* TODO M03 */
+    free(l);
 }

@@ -28,10 +28,28 @@ test_musica: OK
 
 ## Missão M02 — 13/11
 - Integrantes e papéis:
+    Daniel Nunes Santos: documentação
+    José Eduardo Araujo Costa Melo: implementação
+
 - Objetivo:
+    Implementar lse_criar (lista vazia), lse_tamanho, lse_primeiro, lse_destruir (para lista vazia).
+
 - O que implementamos:
+    Todas as funções do objetivo, sendo que lse_destruir foi uma implementação apenas parcial e inicial, considerando que estamos ainda listando com listas vazias.
+
 - Decisão técnica e justificativa:
+
 - Problema encontrado e solução:
+
 - Evidências de testes:
+    Saída do terminal:
+   daniel@LAPTOP-HALO0GS1:/mnt/c/Users/dream/OneDrive/Área de Trabalho/AED1-modulo3/miniplayer$ make -f missoes/M02/MakeFile.incremental test_m02
+cc -std=c11 -Wall -Wextra -Wpedantic -g -Iinclude missoes/M02/TESTE_INCREMENTAL_M02.c src/lse.c -o build/m02_incremental
+./build/m02_incremental
+M02: teste de contrato passou.
+
 - Próxima ação:
-> Duplicar esta seção a cada missão e alternar os papéis na dupla.
+    M03
+
+## Missão M02 — 16/11
+

@@ -1,8 +1,8 @@
 #ifndef LSE_H
 #define LSE_H
 /* Representacao opaca: t_elem e campos de t_lse ficam em lse.c. */
+typedef struct elem t_elem;
 typedef struct lse t_lse;
-
 typedef int (*t_comparador)(const void *carga, const void *chave);
 typedef void(*t_lse_destruir_carga)(void* carga);
 t_elem* lse_elem_criar(void* carga);
