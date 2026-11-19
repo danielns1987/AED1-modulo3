@@ -49,7 +49,7 @@ int lse_tamanho(const t_lse *l) {
 }
 
 
-t_elem *lse_primeiro(const t_lse *l) { 
+void *lse_primeiro(const t_lse *l) { 
     if (l == NULL) {
         return NULL;
     }
@@ -57,7 +57,8 @@ t_elem *lse_primeiro(const t_lse *l) {
     if (l->inicio == NULL) {
         return NULL;
     }else{
-        return l->inicio;
+        t_elem* e = l->inicio;
+        return e->carga;
     }
 }
 
@@ -77,7 +78,12 @@ int lse_inserir_inicio(t_lse *l, void *c) {
     l->tamanho++;
     
     return 1;
-    } /* TODO M04 */
+    }
+
+
+void lse_percorrer(const t_lse *lista, t_lse_visitar cb_visitar){
+    //implementar
+}
 
 
 int lse_inserir_fim(t_lse *l, void *c) {
@@ -198,19 +204,21 @@ void lse_destruir(t_lse *l, t_lse_destruir_carga destruir_carga) {
         return;
     }
     
-    if (l->inicio == NULL) {
-        free(l);
-        return;
-    }
+    if(destruir_carga != NULL) {
+        if (l->inicio == NULL) {
+            free(l);
+            return;
+        }
 
-    t_elem* cam = l->inicio;
-    while(cam != NULL) {
-        t_elem* prox = cam->prox;
-        destruir_carga(cam->carga);
-        free(cam);
-        cam = prox;
+        t_elem* cam = l->inicio;
+        while(cam != NULL) {
+            t_elem* prox = cam->prox;
+            destruir_carga(cam->carga);
+            free(cam);
+            cam = prox;
+        }
+        free(l);
     }
-    free(l);
 }
 
 

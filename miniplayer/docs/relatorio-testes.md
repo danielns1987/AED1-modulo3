@@ -11,6 +11,13 @@
 
 | T04 | M02 | lse_criar | Não recebe entrada | Ponteiro não nulo | Ponteiro não nulo: M02: teste de contrato passou. | Concluído |
 
+| T05 | M03 | lse_inserir_inicio | Ponteiro para lista e ponteiro para carga | Inteiro com resultado da operação | Erro no teste: Error 1 | pendente |
+
+| T06 | M03 | lse_inserir_inicio | Ponteiro para lista e ponteiro para carga | Inteiro com resultado da operação | Erro no teste: Error 1 | pendente | obs: falta concluir
+
+| T07 | M04 | algumas funções do lse.c | várias | várias | Erro no teste: Error 1 | pendente |
+
+
 
 ## Casos-limite
 - Estrutura vazia:
