@@ -4,8 +4,8 @@ M03_CC := gcc
 M03_CFLAGS := -std=c11 -Wall -Wextra -Wpedantic -g -Iinclude
 TESTES_MISSOES += test_m03
 .PHONY: test_m03
-build/test_m03_incremental: missoes/M03/test_m03.c src/lse.c include/lse.h
+build/test_m03_incremental: missoes/M03/test_m03.c src/lse.c src/musica.c include/lse.h include/musica.h
 	@mkdir -p build
-	$(M03_CC) $(M03_CFLAGS) missoes/M03/test_m03.c src/lse.c -o $@
+	$(M03_CC) $(M03_CFLAGS) missoes/M03/test_m03.c src/lse.c src/musica.c -o $@
 test_m03: build/test_m03_incremental
 	./build/test_m03_incremental

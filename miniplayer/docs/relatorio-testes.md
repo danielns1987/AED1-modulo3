@@ -13,7 +13,7 @@
 
 | T05 | M03 | lse_inserir_inicio | Ponteiro para lista e ponteiro para carga | Inteiro com resultado da operação | Erro no teste: Error 1 | pendente |
 
-| T06 | M03 | lse_inserir_inicio | Ponteiro para lista e ponteiro para carga | Inteiro com resultado da operação | Erro no teste: Error 1 | pendente | obs: falta concluir
+| T06 | M03 | lse_inserir_inicio | Ponteiro para lista e ponteiro para carga | Inteiro com resultado da operação | M03: todos os testes passaram. | Concluído |
 
 | T07 | M04 | algumas funções do lse.c | várias | várias | Erro no teste: Error 1 | pendente |
 

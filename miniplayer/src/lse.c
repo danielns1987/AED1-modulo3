@@ -2,7 +2,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
-/* Representacao interna: NAO mover para lse.h. */
+#include <assert.h>
+
 
 typedef struct elem {
     void *carga;
@@ -16,129 +17,132 @@ typedef struct lse {
 } t_lse;
 
 
-t_elem *lse_elem_criar(void* carga) {
-    t_elem *e = malloc(sizeof(t_elem));
-    if (e == NULL) {
+void *lse_elem_criar(void* carga) {
+    t_elem *novo = malloc(sizeof(t_elem));
+    if (novo == NULL) {
         return NULL;
     }
     
-    e->carga = carga;
-    e->prox = NULL;
-    return e;
+    novo->carga = carga;
+    novo->prox = NULL;
+    return novo;
 }
 
 
 t_lse *lse_criar(void) {
-    t_lse *l = malloc(sizeof(t_lse));
-    if (l == NULL) {
+    t_lse *lista = malloc(sizeof(t_lse));
+    if (lista == NULL) {
         return NULL;
     }
-    l->inicio = NULL;
-    l->tamanho = 0;
+    lista->inicio = NULL;
+    lista->tamanho = 0;
     
-    return l;
+    return lista;
 }
 
 
-int lse_tamanho(const t_lse *l) {
-    if (l == NULL) {
+int lse_tamanho(const t_lse *lista) {
+    if (lista == NULL) {
         return -1;
     }
 
-    return l->tamanho;
+    return lista->tamanho;
 }
 
 
-void *lse_primeiro(const t_lse *l) { 
-    if (l == NULL) {
+void *lse_primeiro(const t_lse *lista) { 
+    if (lista == NULL) {
         return NULL;
     }
 
-    if (l->inicio == NULL) {
+    if (lista->inicio == NULL) {
         return NULL;
     }else{
-        t_elem* e = l->inicio;
-        return e->carga;
+        t_elem* elem = lista->inicio;
+        return elem->carga;
     }
 }
 
 
-int lse_inserir_inicio(t_lse *l, void *c) {
-    t_elem* novo = lse_elem_criar(c);
-    
-    if (novo == NULL)
+int lse_inserir_inicio(t_lse *lista, void *carga) {
+    if (lista == NULL) {
         return 0;
-    
-    if (l->inicio == NULL) {
-        l->inicio = novo;
-    }else{
-        novo->prox = l->inicio;
-        l->inicio = novo;
     }
-    l->tamanho++;
-    
+
+    t_elem* novo = lse_elem_criar(carga);
+    if (novo == NULL) {
+        return 0;
+    }
+
+    if (lista->inicio == NULL) {
+        lista->inicio = novo;
+    } else {
+        novo->prox = lista->inicio;
+        lista->inicio = novo;
+    }
+    lista->tamanho++;
+
     return 1;
-    }
-
-
-void lse_percorrer(const t_lse *lista, t_lse_visitar cb_visitar){
-    //implementar
 }
 
 
-int lse_inserir_fim(t_lse *l, void *c) {
-    assert(l!=NULL);
-    t_elem* novo = lse_elem_criar(c);
+int lse_inserir_fim(t_lse *lista, void *carga) {
+    assert(lista != NULL);
+    t_elem* novo = lse_elem_criar(carga);
     
     if (novo == NULL)
         return 0;
     
-    if (l->inicio == NULL){
-        l->inicio = novo;
+    if (lista->inicio == NULL){
+        lista->inicio = novo;
     } else{
-        t_elem* cam = l->inicio;
+        t_elem* cam = lista->inicio;
         while (cam->prox != NULL){
             cam = cam->prox;
         }
         cam->prox = novo;
     }
-    l->tamanho++;
+    lista->tamanho++;
 
     return 1;
-
-   /* Se lista está vazia, o comportamento é o mesmo de inserir no inicio
-    pegar endereço do início, percorrer toda lista até que endereço de próximo = NULL
-    conectar o novo com o antigo proximo
-    o novo agora vai ter prox = NULL
-    obs: usar variável cam para percorrer lista
-    mudar tamanho da lista +1*/ 
     
-    } /* TODO M04 */
+}
 
-void *lse_remover_inicio(t_lse *l) { 
-    assert(l == NULL);
-    if (l->tamanho == 0)
+
+void *lse_remover_inicio(t_lse *lista) { 
+    assert(lista != NULL);
+    if (lista->tamanho == 0)
         return NULL;
 
-        t_elem* prim = l->inicio;
-        l->inicio = prim->prox;
+    t_elem* prim = lista->inicio;
+    lista->inicio = prim->prox;
 
-        void* c = prim->carga;
-        free(prim);
+    void* carga = prim->carga;
+    free(prim);
 
-        l->tamanho--;
+    lista->tamanho--;
 
-        return c;
+    return carga;
 
-
-    /*Se a lista está vazia, não dá para remover no início: é necessário uma decisão*/
-
-     } /* TODO M04 */
+}
 
 
-void *lse_buscar(const t_lse *l, const void *ch, t_comparador cmp) {
-    assert(l != NULL);
-    t_elem* cam = l->inicio;
+ void lse_percorrer(const t_lse *lista, t_lse_visitar cb_visitar){
+    if (lista == NULL || cb_visitar == NULL) {
+        return;
+    }
+
+    t_elem* cam = lista->inicio;
+    while (cam != NULL) {
+        cb_visitar(cam->carga);
+        cam = cam->prox;
+    }
+}    
+
+
+void *lse_buscar(const t_lse *lista, const void *ch, t_comparador cmp) {
+    assert(lista != NULL);
+    t_elem* cam = lista->inicio;
 
     while(cam != NULL)
     if (cmp(ch, cam->carga) == 0){
@@ -147,17 +151,14 @@ void *lse_buscar(const t_lse *l, const void *ch, t_comparador cmp) {
         cam = cam->prox;
     }
 
-    /*percorrer a lista até achar valor igual à chave
-    usar operação de subtração na comparação*/
-    
-    //(void)l; (void)ch; (void)cmp; return NULL;
-    } /* TODO M04 */
+    return NULL;
+
+}
 
 
-
-void *lse_remover(t_lse *l, const void *ch, t_comparador cmp) {
-    assert(l != NULL);
-    t_elem* cam = l->inicio;
+void *lse_remover(t_lse *lista, const void *ch, t_comparador cmp) {
+    assert(lista != NULL);
+    t_elem* cam = lista->inicio;
     t_elem* ant = NULL;
     bool achou = false;
 
@@ -173,53 +174,39 @@ void *lse_remover(t_lse *l, const void *ch, t_comparador cmp) {
     if (!achou){
         return NULL;
     }else{
-        if (l->inicio == cam){
-            l->inicio = cam->prox;
+        if (lista->inicio == cam){
+            lista->inicio = cam->prox;
         }else{
             ant->prox = cam->prox;
         }
-        void* c = cam->prox;
+        void* carga = cam->prox;
         free(cam);
-        return c;
-    }
-
-
-    //(void)l; (void)ch; (void)cmp; return NULL;
-    
-
-        /*lógica parecida com a busca*/
-
-    
-} /* TODO M04 */
-
-
-
-
-int lse_inserir_ordenado(t_lse *l, void *c, t_comparador cmp) { (void)l; (void)c; (void)cmp; return 0; } /* TODO M05 */
-
-
-
-void lse_destruir(t_lse *l, t_lse_destruir_carga destruir_carga) {
-    if (l == NULL) {
-        return;
-    }
-    
-    if(destruir_carga != NULL) {
-        if (l->inicio == NULL) {
-            free(l);
-            return;
-        }
-
-        t_elem* cam = l->inicio;
-        while(cam != NULL) {
-            t_elem* prox = cam->prox;
-            destruir_carga(cam->carga);
-            free(cam);
-            cam = prox;
-        }
-        free(l);
-    }
+        return carga;
+    }    
 }
 
 
-typedef int (*t_comparador)(void* chave, void* carga);
+/*int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar){
+
+}*/
+
+
+
+void lse_destruir(t_lse *lista, t_lse_destruir_carga destruir_carga) {
+    if (lista == NULL) {
+        return;
+    }
+
+    t_elem* cam = lista->inicio;
+    while (cam != NULL) {
+        t_elem* prox = cam->prox;
+        if (destruir_carga != NULL) {
+            destruir_carga(cam->carga);
+        }
+        free(cam);
+        cam = prox;
+    }
+
+    free(lista);
+}
+
