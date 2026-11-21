@@ -87,44 +87,34 @@ int lse_inserir_inicio(t_lse *lista, void *carga) {
 
 
 int lse_inserir_fim(t_lse *lista, void *carga) {
-    assert(lista != NULL);
+    if (lista == NULL) return 0;
+
     t_elem* novo = lse_elem_criar(carga);
-    
-    if (novo == NULL)
-        return 0;
-    
-    if (lista->inicio == NULL){
+    if (novo == NULL) return 0;
+
+    if (lista->inicio == NULL) {
         lista->inicio = novo;
-    } else{
+    } else {
         t_elem* cam = lista->inicio;
-        while (cam->prox != NULL){
-            cam = cam->prox;
-        }
+        while (cam->prox != NULL) cam = cam->prox;
         cam->prox = novo;
     }
     lista->tamanho++;
-
     return 1;
-    
 }
+ 
 
 
-void *lse_remover_inicio(t_lse *lista) { 
-    assert(lista != NULL);
-    if (lista->tamanho == 0)
-        return NULL;
+void *lse_remover_inicio(t_lse *lista) {
+    if (lista == NULL || lista->tamanho == 0) return NULL;
 
     t_elem* prim = lista->inicio;
     lista->inicio = prim->prox;
-
     void* carga = prim->carga;
     free(prim);
-
     lista->tamanho--;
-
     return carga;
-
-}
+} 
 
 
  void lse_percorrer(const t_lse *lista, t_lse_visitar cb_visitar){
@@ -141,50 +131,37 @@ void *lse_remover_inicio(t_lse *lista) {
 
 
 void *lse_buscar(const t_lse *lista, const void *ch, t_comparador cmp) {
-    assert(lista != NULL);
-    t_elem* cam = lista->inicio;
+    if (lista == NULL || cmp == NULL) return NULL;
 
-    while(cam != NULL)
-    if (cmp(ch, cam->carga) == 0){
-        return cam->carga;
-    }else{
+    t_elem* cam = lista->inicio;
+    while (cam != NULL) {
+        if (cmp(cam->carga, ch) == 0) return cam->carga;
         cam = cam->prox;
     }
-
     return NULL;
-
-}
+} 
 
 
 void *lse_remover(t_lse *lista, const void *ch, t_comparador cmp) {
-    assert(lista != NULL);
+    if (lista == NULL || cmp == NULL) return NULL;
+
     t_elem* cam = lista->inicio;
     t_elem* ant = NULL;
-    bool achou = false;
 
-    while ((cam != NULL) && (!achou)){
-        if (cmp(ch, cam->carga) == 0) {
-            achou = true;
-        }else{
-            ant = cam;
-            cam = cam->prox;
-        }
+    while (cam != NULL && cmp(cam->carga, ch) != 0) {
+        ant = cam;
+        cam = cam->prox;
     }
-    
-    if (!achou){
-        return NULL;
-    }else{
-        if (lista->inicio == cam){
-            lista->inicio = cam->prox;
-        }else{
-            ant->prox = cam->prox;
-        }
-        void* carga = cam->prox;
-        free(cam);
-        return carga;
-    }    
-}
+    if (cam == NULL) return NULL;
 
+    if (ant == NULL) lista->inicio = cam->prox;
+    else ant->prox = cam->prox;
+
+    void* carga = cam->carga;
+    free(cam);
+    lista->tamanho--;
+    return carga;
+} 
 
 /*int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar){
 
