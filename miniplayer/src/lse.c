@@ -163,9 +163,54 @@ void *lse_remover(t_lse *lista, const void *ch, t_comparador cmp) {
     return carga;
 } 
 
-/*int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar){
+int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar) {
+    if ((lista == NULL) || (comparar == NULL)) {
+        return 0;
+    }
 
-}*/
+    t_elem *novo = lse_elem_criar(carga);
+    if (novo == NULL) {
+        return 0;
+    }
+
+    // Ordem crescente: insere no inicio se vazia ou se 'carga' <= primeiro elemento
+    if ((lista->inicio == NULL) || (comparar(carga, lista->inicio->carga) <= 0)) {
+        novo->prox = lista->inicio;
+        lista->inicio = novo;
+        lista->tamanho++;
+        return 1;
+    }
+
+    t_elem *cam = lista->inicio;
+    while ((cam->prox != NULL) && (comparar(cam->prox->carga, carga) < 0)) {
+        cam = cam->prox;
+    }
+
+    novo->prox = cam->prox;
+    cam->prox = novo;
+    lista->tamanho++;
+
+    return 1;
+}
+    
+
+    /*versão do professor (incompleta)
+    t_elem* ant = NULL;
+    t_elem* cam = lista->inicio;
+
+    if (lista->inicio == NULL) || ()
+
+    //caminhar pela lse até encontrar posição de inserção
+    bool nao_encontrou_posicao = true;
+    while((cam != NULL) && (nao_encontrou_posicao)){
+        void* carga_atual = cam->carga;
+        if (comparar(novo, carga_atual) >= 0) {
+            ant = cam;
+            cam = cam->prox;
+        }else{
+            nao_encontrou_posicao = false;
+        }
+    }*/
 
 
 
