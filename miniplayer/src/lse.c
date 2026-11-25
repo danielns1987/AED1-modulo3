@@ -172,17 +172,19 @@ int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar) {
     if (novo == NULL) {
         return 0;
     }
-
-    // Ordem crescente: insere no inicio se vazia ou se 'carga' <= primeiro elemento
-    if ((lista->inicio == NULL) || (comparar(carga, lista->inicio->carga) <= 0)) {
+      
+        // Insere no inicio so se vazia ou se a nova carga for estritamente menor.
+    // Contrato: comparar(carga_existente, carga_nova). Empate vai depois dos iguais. 
+   
+       if ((lista->inicio == NULL) || (comparar(lista->inicio->carga, carga) > 0)) {
         novo->prox = lista->inicio;
         lista->inicio = novo;
         lista->tamanho++;
         return 1;
-    }
-
+    } 
+   
     t_elem *cam = lista->inicio;
-    while ((cam->prox != NULL) && (comparar(cam->prox->carga, carga) < 0)) {
+       while ((cam->prox != NULL) && (comparar(cam->prox->carga, carga) <= 0)) { 
         cam = cam->prox;
     }
 
@@ -231,4 +233,4 @@ void lse_destruir(t_lse *lista, t_lse_destruir_carga destruir_carga) {
 
     free(lista);
 }
-
+ 
