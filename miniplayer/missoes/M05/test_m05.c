@@ -233,4 +233,4 @@ int main(void) {
     teste_invalido_e_reinsercao();
     puts("M05: todos os testes passaram.");
     return 0;
-} 
+}     
