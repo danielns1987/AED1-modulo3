@@ -1,0 +1,8 @@
+M07_CFLAGS := -std=c11 -Wall -Wextra -Wpedantic -g -Iinclude
+TESTES_MISSOES += test_m07
+.PHONY: test_m07
+build/test_m07_incremental: missoes/M07/test_m07.c src/player.c src/pilha.c src/lse.c include/player.h include/pilha.h include/lse.h include/musica.h
+	@mkdir -p build
+	$(CC) $(M07_CFLAGS) $(CFLAGS) $(filter %.c,$^) $(LDFLAGS) -o $@
+test_m07: build/test_m07_incremental
+	./build/test_m07_incremental

@@ -196,26 +196,6 @@ int lse_inserir_ordenado(t_lse *lista, void *carga, t_comparador comparar) {
 }
     
 
-    /*versão do professor (incompleta)
-    t_elem* ant = NULL;
-    t_elem* cam = lista->inicio;
-
-    if (lista->inicio == NULL) || ()
-
-    //caminhar pela lse até encontrar posição de inserção
-    bool nao_encontrou_posicao = true;
-    while((cam != NULL) && (nao_encontrou_posicao)){
-        void* carga_atual = cam->carga;
-        if (comparar(novo, carga_atual) >= 0) {
-            ant = cam;
-            cam = cam->prox;
-        }else{
-            nao_encontrou_posicao = false;
-        }
-    }*/
-
-
-
 void lse_destruir(t_lse *lista, t_lse_destruir_carga destruir_carga) {
     if (lista == NULL) {
         return;
